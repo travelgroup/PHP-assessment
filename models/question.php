@@ -6,25 +6,33 @@ class Question
 {
 
     public $id;
-    protected $name;
+    public $name;
     public $text;
     public $answer;
     public $created;
 
-    protected $tableName = 'questions';
+    public $tableName = 'questions';
     const      TABLENAME = 'questions';
 
     public function __construct($questionId, Database $db)
     {
-        $sql  = "SELECT * FROM `$this->tableName WHERE `id` = '" . $questionId . "' LIMIT 1;";
+		
+        $sql  = "SELECT * FROM `questions` WHERE `id` = '" . $questionId . "' LIMIT 1;";
 
         $result = $db->getArray($sql);
 
-        $this->id      = $questionId;
-        $this->name    = $result[0]['name'];
-        $this->text    = $result[0]['text'];
-        $this->answer  = $result[0]['answer'];
-        $this->created = $result['created'];
+		if ($result !== false && count($result) > 0) {
+			$this->id      = $questionId;
+			$this->name    = $result[0]['name'];
+			$this->text    = $result[0]['text'];
+			$this->answer  = $result[0]['answer'];
+			$this->created = $result[0]['created'];
+		} else {
+			// Handle the case where no rows are found
+			// For example, you might throw an exception or set default values
+			print_r("No question found with ID: $questionId");
+		}
+
     }
     //--------------------------------------------------------------------------
 
@@ -34,7 +42,15 @@ class Question
         $sql = "SELECT `name` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
-        return $result[0]['name'];
+		if ($result !== false && count($result) > 0) {
+			return $result[0]['name'];
+		} else {
+			// Handle the case where no rows are found
+			// For example, you might throw an exception or set default values
+			return '';
+		}
+		
+       // return $result[0]['name'];
     }
     //--------------------------------------------------------------------------
 
@@ -44,17 +60,34 @@ class Question
         $sql = "SELECT `text` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
-        return $this->text;
+		if ($result !== false && count($result) > 0) {
+			return $result[0]['text'];
+		} else {
+			// Handle the case where no rows are found
+			// For example, you might throw an exception or set default values
+			return '';
+		}
+		
+       // return $this->text;
     }
     //--------------------------------------------------------------------------
 
 
     public static function getAnswerById($questionId, Database $db)
     {
-        $sql = "SELECT `answer` FROM " . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
+        $sql = "SELECT `answer` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
-        return $result[0]['answer'];
+		if ($result !== false && count($result) > 0) {
+			return $result[0]['answer'];
+		} else {
+			// Handle the case where no rows are found
+			// For example, you might throw an exception or set default values
+			return '';
+		}
+		
+		
+        //return $result[0]['answer'];
     }
     //--------------------------------------------------------------------------
 
@@ -64,7 +97,15 @@ class Question
         $sql = "SELECT `created` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
-        return $result[0]['created'];
+		if ($result !== false && count($result) > 0) {
+			return $result[0]['created'];
+		} else {
+			// Handle the case where no rows are found
+			// For example, you might throw an exception or set default values
+			return '';
+		}
+		
+       // return $result[0]['created'];
     }
     //--------------------------------------------------------------------------
 
@@ -73,7 +114,7 @@ class Question
     {
         $columns = array(
             'name',
-            'text'
+            'text',
             'answer'
         );
 
