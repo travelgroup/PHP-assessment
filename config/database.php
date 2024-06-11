@@ -4,7 +4,7 @@ namespace interview;
 
 class Config_Database
 {
-  
+
  /*  private $credentials = array(
         'host'     => 'localhost',
         'port'     => NULL,
