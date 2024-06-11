@@ -22,16 +22,17 @@
 DROP TABLE IF EXISTS `questions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `questions` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `text` varchar(255) NOT NULL,
-  `answer` text NOT NULL,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `text` (`text`),
-  KEY `created` (`created`)
+CREATE TABLE `questions`
+(
+    `id`      int(5) NOT NULL AUTO_INCREMENT,
+    `name`    varchar(100) NOT NULL,
+    `text`    varchar(255) NOT NULL,
+    `answer`  text         NOT NULL,
+    `created` datetime     NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY       `name` (`name`),
+    KEY       `text` (`text`),
+    KEY       `created` (`created`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,11 +40,18 @@ CREATE TABLE `questions` (
 -- Dumping data for table `questions`
 --
 
-LOCK TABLES `questions` WRITE;
+LOCK
+TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,'MVC Principles','Explain MVC principles, and why they are important?','','2014-09-25 22:30:16'),(2,'Unit Testing','What constitutes a good unit test?','','2014-09-25 22:30:37'),(3,'Roadblocks','You are required to work with a huge chunk of code and you have no idea how it works and there’s no documentation and no tests. What steps do you take?','','2014-09-25 22:32:41');
+INSERT INTO `questions`
+VALUES (1, 'MVC Principles', 'Explain MVC principles, and why they are important?', '', '2014-09-25 22:30:16'),
+       (2, 'Unit Testing', 'What constitutes a good unit test?', '', '2014-09-25 22:30:37'),
+       (3, 'Roadblocks',
+        'You are required to work with a huge chunk of code and you have no idea how it works and there’s no documentation and no tests. What steps do you take?',
+        '', '2014-09-25 22:32:41');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
-UNLOCK TABLES;
+UNLOCK
+TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

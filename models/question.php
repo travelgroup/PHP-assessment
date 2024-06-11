@@ -1,12 +1,10 @@
 <?php
 
 namespace interview;
-
 class Question
 {
-
     public $id;
-    protected $name;
+    public $name;
     public $text;
     public $answer;
     public $created;
@@ -16,16 +14,17 @@ class Question
 
     public function __construct($questionId, Database $db)
     {
-        $sql  = "SELECT * FROM `$this->tableName WHERE `id` = '" . $questionId . "' LIMIT 1;";
+        $sql = "SELECT * FROM $this->tableName WHERE `id` = '" . $questionId . "' LIMIT 1;";
 
         $result = $db->getArray($sql);
 
-        $this->id      = $questionId;
-        $this->name    = $result[0]['name'];
-        $this->text    = $result[0]['text'];
-        $this->answer  = $result[0]['answer'];
-        $this->created = $result['created'];
+        $this->id = $questionId;
+        $this->name = $result[0]['name'];
+        $this->text = $result[0]['text'];
+        $this->answer = $result[0]['answer'];
+        $this->created = $result[0]['created'];
     }
+
     //--------------------------------------------------------------------------
 
 
@@ -36,6 +35,7 @@ class Question
 
         return $result[0]['name'];
     }
+
     //--------------------------------------------------------------------------
 
 
@@ -44,18 +44,21 @@ class Question
         $sql = "SELECT `text` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
-        return $this->text;
+        return $result[0]['text'];
     }
+
     //--------------------------------------------------------------------------
 
 
     public static function getAnswerById($questionId, Database $db)
     {
-        $sql = "SELECT `answer` FROM " . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
+        $sql = "SELECT `answer` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
+        var_dump($result);
 
-        return $result[0]['answer'];
+        return !empty($result) ? $result[0]['answer'] : null;
     }
+
     //--------------------------------------------------------------------------
 
 
@@ -64,8 +67,9 @@ class Question
         $sql = "SELECT `created` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
 
-        return $result[0]['created'];
+        return !empty($result) ? $result[0]['created'] : null;
     }
+
     //--------------------------------------------------------------------------
 
 
@@ -73,7 +77,7 @@ class Question
     {
         $columns = array(
             'name',
-            'text'
+            'text',
             'answer'
         );
 

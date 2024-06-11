@@ -2,32 +2,33 @@
 
 namespace interview;
 
-class Database {
+use Exception;
+
+class Database
+{
     protected $link;
     protected $connected;
 
-    public function __construct() {
+    public function __construct()
+    {
         $credentials = new Config_Database();
 
         try {
-            $this->link = new \PDO(
-                'mysql:host=' . $credentials['host'] . 'dbname=' . $credentials['database'],
-                $credentials->getUser(),
-                $credentials->getPass(),
-                array(
-                    \PDO::ATTR_EMULATE_PREPARES => false,
-                    \PDO::ATTR_ERRMODE          => \PDO::ERRMODE_EXCEPTION)
-            );
+            $config = new Config_Database();
+            $dsn = "mysql:host=" . $config->getHost() . ";dbname=" . $config->getDatabase() . ";port=" . $config->getPort();
+            $this->link = new \PDO($dsn, $config->getUser(), $config->getPass());
+            $this->link->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->connected = true;
         } catch (\PDOException $e) {
-            Logging::logDBErrorAndExit($e->getMessage());
+            $this->connected = false;
+            echo "Connection failed: " . $e->getMessage();
         }
     }
+
     //--------------------------------------------------------------------------
-
-
     public function insert($tableName, $columns, $data, $ignore = false)
     {
-        $statement  = "INSERT";
+        $statement = "INSERT";
 
         if ($ignore) {
             $statement .= " IGNORE";
@@ -37,7 +38,9 @@ class Database {
         $statement .= " (";
 
         for ($x = 0; $x < sizeof($columns); $x++) {
-            if ($x > 0) { $statement .= ', '; }
+            if ($x > 0) {
+                $statement .= ', ';
+            }
             $statement .= $columns[$x];
         }
 
@@ -45,7 +48,9 @@ class Database {
         $statement .= " values (";
 
         for ($x = 0; $x < sizeof($data); $x++) {
-            if ($x > 0) { $statement .= ', '; }
+            if ($x > 0) {
+                $statement .= ', ';
+            }
             $statement .= "?";
         }
 
@@ -58,12 +63,13 @@ class Database {
             Logging::logDBErrorAndExit($e->getMessage());
         }
     }
+
     //--------------------------------------------------------------------------
 
 
     public function updateOne($tableName, $column, $data, $where, $condition)
     {
-        $statement  = "UPDATE";
+        $statement = "UPDATE";
 
         $statement .= " `" . $tableName . "`";
         $statement .= " SET `";
@@ -84,20 +90,23 @@ class Database {
     //--------------------------------------------------------------------------
 
 
-    public function getArray($statement)
+    /**
+     * @throws Exception
+     */
+    public function getArray($statement, $params = [])
     {
+        if (!$this->connected) {
+            throw new Exception("Not connected to the database.");
+        }
+
         try {
-            $sql = $this->link->query($statement);
+            $sql = $this->link->prepare($statement);
+            $sql->execute($params);
             $results = $sql->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             Logging::logDBErrorAndExit($e->getMessage());
         }
 
-        if (!empty($results)) {
-            return false;
-        }
-
-        return $results;
+        return !empty($results) ? $results : [];
     }
-    //--------------------------------------------------------------------------
 }
