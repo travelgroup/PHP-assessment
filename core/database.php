@@ -6,12 +6,12 @@ class Database {
     protected $link;
     protected $connected;
 
-    public function __construct() {
+    public function __construct(){
         $credentials = new Config_Database();
 
         try {
             $this->link = new \PDO(
-                'mysql:host=' . $credentials['host'] . 'dbname=' . $credentials['database'],
+                'mysql:host=' . $credentials->getHost() . ';dbname=' . $credentials->getDatabase(),
                 $credentials->getUser(),
                 $credentials->getPass(),
                 array(
@@ -86,18 +86,18 @@ class Database {
 
     public function getArray($statement)
     {
-        try {
-            $sql = $this->link->query($statement);
-            $results = $sql->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            Logging::logDBErrorAndExit($e->getMessage());
-        }
+			try {
+				$sql = $this->link->query($statement);
+				$results = $sql->fetchAll(\PDO::FETCH_ASSOC);
+			} catch (\PDOException $e) {
+				Logging::logDBErrorAndExit($e->getMessage());
+			}
 
-        if (!empty($results)) {
-            return false;
-        }
+			if (empty($results)) {
+				return false; // Return false only if there are no results
+			}
 
-        return $results;
+			return $results;
     }
     //--------------------------------------------------------------------------
 }

@@ -2,7 +2,9 @@
 
 require_once __DIR__ . "/../boot.php";
 
-class QuestionTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class testQuestion extends TestCase
 {
     public function testModelLoaded()
     {

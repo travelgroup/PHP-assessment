@@ -5,12 +5,20 @@ namespace interview;
 class Config_Database
 {
 
-    private $credentials = array(
+ /*  private $credentials = array(
         'host'     => 'localhost',
         'port'     => NULL,
         'database' => 'interview',
         'user'     => 'questions',
         'pass'     => 'answers'
+    );*/
+
+    private $credentials = array(
+        'host'     => 'localhost',
+        'port'     => NULL,
+        'database' => 'interview',
+        'user'     => 'root',
+        'pass'     => ''
     );
 
     public function getHost()
@@ -20,7 +28,7 @@ class Config_Database
     //--------------------------------------------------------------------------
 
 
-    public function getPort{
+    public function getPort(){
         return $this->credentials['port'];
     }
     //--------------------------------------------------------------------------
@@ -45,4 +53,5 @@ class Config_Database
         return $this->credentials['pass'];
     }
     //--------------------------------------------------------------------------
+	
 }

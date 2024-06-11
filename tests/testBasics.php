@@ -2,7 +2,9 @@
 
 require_once __DIR__ . "/../boot.php";
 
-class BasicTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class testBasics extends TestCase
 {
     public function testConfigLoaded()
     {
