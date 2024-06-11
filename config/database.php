@@ -12,7 +12,7 @@ class Config_Database
         'user'     => 'questions',
         'pass'     => 'answers'
     );*/
-	
+
     private $credentials = array(
         'host'     => 'localhost',
         'port'     => NULL,
@@ -53,4 +53,5 @@ class Config_Database
         return $this->credentials['pass'];
     }
     //--------------------------------------------------------------------------
+	
 }
