@@ -32,7 +32,9 @@ class Database
     }
     //--------------------------------------------------------------------------
 
-
+    /**
+     * Insert data into table
+     */
     public function insert($tableName, $columns, $data, $ignore = false)
     {
         $statement  = "INSERT";
@@ -72,7 +74,9 @@ class Database
     }
     //--------------------------------------------------------------------------
 
-
+    /**
+     * Update row
+     */
     public function updateOne($tableName, $column, $data, $where, $condition)
     {
         $statement  = "UPDATE";
@@ -95,7 +99,9 @@ class Database
     }
     //--------------------------------------------------------------------------
 
-
+    /**
+     * Get results
+     */
     public function getArray($statement)
     {   
 

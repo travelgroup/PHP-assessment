@@ -24,7 +24,7 @@ class Question
         $this->id      = $questionId;
         $this->name    = $result[0]['name'];
         $this->text    = $result[0]['text'];
-        $this->answer  = $result[0]['answer'] == '' ? 'n/a' : '';
+        $this->answer  = $result[0]['answer'];
         $this->created = $result[0]['created'];
     }
     //--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ class Question
         $sql = "SELECT `answer` FROM `" . self::TABLENAME . "` WHERE `id` = '" . $questionId . "' LIMIT 1;";
         $result = $db->getArray($sql);
         
-        return $result[0]['answer'] == '' ? 'n/a' : '';
+        return $result[0]['answer'];
     }
     //--------------------------------------------------------------------------
 
